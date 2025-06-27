@@ -1,0 +1,303 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - EduPlatform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: #fff !important;
+        color: #007bff !important;
+        padding: 6rem 0;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+    .about-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #007bff !important;
+    }
+    .about-hero p {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin: 0 auto;
+        color: #007bff !important;
+    }
+    .team-member {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .team-member img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 1rem;
+        border: 5px solid #fff;
+        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        transition: transform 0.3s ease;
+    }
+    .team-member img:hover {
+        transform: scale(1.05);
+    }
+    .team-member h5 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #007bff !important;
+    }
+    .team-member .text-muted {
+        font-size: 0.875rem;
+        color: #007bff !important;
+    }
+    .social-links {
+        margin-top: 1rem;
+    }
+    .social-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: #fff;
+        border-radius: 50%;
+        color: #007bff;
+        margin: 0 0.25rem;
+        transition: all 0.3s ease;
+        border: 1px solid #007bff;
+    }
+    .social-links a:hover {
+        background: #007bff;
+        color: #fff;
+        transform: translateY(-3px);
+    }
+    .milestone {
+        text-align: center;
+        padding: 2rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        margin-bottom: 2rem;
+    }
+    .milestone i {
+        font-size: 2.5rem;
+        color: #007bff;
+        margin-bottom: 1rem;
+    }
+    .milestone h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: #007bff !important;
+        background: none !important;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+    }
+    .milestone p {
+        color: #007bff !important;
+        font-weight: 500;
+    }
+    .about-section {
+        margin-bottom: 5rem;
+    }
+    .about-section h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-bottom: 1rem;
+        color: #007bff !important;
+    }
+    .about-section h2:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: #007bff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <h1 class="fade-in">About EduPlatform</h1>
+        <p class="fade-in delay-1">We're on a mission to provide high-quality education accessible to everyone, everywhere.</p>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="about-section">
+    <div class="container">
+        <h2 class="fade-in">Our Story</h2>
+        <div class="row align-items-center">
+            <div class="col-lg-6 fade-in delay-1">
+                <p>EduPlatform was founded in 2020 with a simple but powerful idea: to make quality education accessible to everyone, regardless of their location or background.</p>
+                <p>What started as a small project has grown into a comprehensive educational platform serving thousands of students worldwide. Our team of dedicated educators and developers work tirelessly to create engaging learning experiences that make education both effective and enjoyable.</p>
+                <p>We believe that education is a fundamental right and that technology can be a powerful tool to break down barriers to learning. Through our platform, we aim to empower individuals to reach their full potential and contribute meaningfully to society.</p>
+            </div>
+            <div class="col-lg-6 fade-in delay-2">
+                <img src="{% static 'images/about-story.jpg' %}" alt="Our Story" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Milestones Section -->
+<section class="about-section bg-light py-5">
+    <div class="container">
+        <h2 class="fade-in">Our Milestones</h2>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 fade-in delay-1">
+                <div class="milestone">
+                    <i class="fas fa-user-graduate"></i>
+                    <h2>10K+</h2>
+                    <p>Students</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 fade-in delay-2">
+                <div class="milestone">
+                    <i class="fas fa-book-open"></i>
+                    <h2>200+</h2>
+                    <p>Courses</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 fade-in delay-3">
+                <div class="milestone">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h2>50+</h2>
+                    <p>Instructors</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 fade-in delay-4">
+                <div class="milestone">
+                    <i class="fas fa-globe"></i>
+                    <h2>30+</h2>
+                    <p>Countries</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="about-section">
+    <div class="container">
+        <h2 class="fade-in">Meet Our Team</h2>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 fade-in delay-1">
+                <div class="team-member">
+                    <img src="{% static 'images/team-1.jpg' %}" alt="Team Member">
+                    <h5>Sarah Johnson</h5>
+                    <p class="text-muted">Founder & CEO</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 fade-in delay-2">
+                <div class="team-member">
+                    <img src="{% static 'images/team-2.jpg' %}" alt="Team Member">
+                    <h5>Michael Chen</h5>
+                    <p class="text-muted">CTO</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 fade-in delay-3">
+                <div class="team-member">
+                    <img src="{% static 'images/team-3.jpg' %}" alt="Team Member">
+                    <h5>Emily Rodriguez</h5>
+                    <p class="text-muted">Lead Instructor</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 fade-in delay-4">
+                <div class="team-member">
+                    <img src="{% static 'images/team-4.jpg' %}" alt="Team Member">
+                    <h5>David Thompson</h5>
+                    <p class="text-muted">Lead Developer</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="about-section bg-light py-5">
+    <div class="container">
+        <h2 class="fade-in">Our Values</h2>
+        <div class="row">
+            <div class="col-md-4 fade-in delay-1">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-award fa-3x mb-3" style="color: #007bff;"></i>
+                        <h4>Excellence</h4>
+                        <p>We are committed to providing the highest quality educational content and experiences. We continuously strive to improve and innovate.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in delay-2">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-users fa-3x mb-3" style="color: #007bff;"></i>
+                        <h4>Inclusivity</h4>
+                        <p>We believe education should be accessible to everyone. We design our platform to accommodate diverse learning needs and backgrounds.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 fade-in delay-3">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-lightbulb fa-3x mb-3" style="color: #007bff;"></i>
+                        <h4>Innovation</h4>
+                        <p>We embrace new technologies and pedagogical approaches to create engaging and effective learning experiences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add animation to milestone numbers
+        const milestones = document.querySelectorAll('.milestone h2');
+        const options = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-counter');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        milestones.forEach(milestone => {
+            observer.observe(milestone);
+        });
+    });
+</script>
+{% endblock %}

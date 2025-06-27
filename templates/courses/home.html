@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Education Platform{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-light py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Learn Without Limits</h1>
+                <p class="lead" style="color: #111;">Start, switch, or advance your career with thousands of courses from expert instructors.</p>
+                <a href="{% url 'courses:course_list' %}" class="btn btn-primary btn-lg">Browse Courses</a>
+            </div>
+            <div class="col-md-6">
+                <img src="https://via.placeholder.com/600x400" alt="Education" class="img-fluid rounded">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notice Board & Upcoming Events -->
+<section class="mb-5">
+    <div class="container">
+        <div class="row">
+            <!-- Notice Board -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white d-flex align-items-center">
+                        <i class="fas fa-bullhorn me-2"></i>
+                        <h5 class="mb-0">Recent Notices</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if notices %}
+                        <div class="list-group list-group-flush">
+                            {% for notice in notices %}
+                            <div class="list-group-item list-group-item-action p-3 {% if notice.important %}border-start border-danger border-4{% endif %}">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-2">
+                                        {% if notice.important %}
+                                        <span class="badge bg-danger me-2">Important</span>
+                                        {% endif %}
+                                        {{ notice.title }}
+                                    </h6>
+                                    <small class="text-muted">{{ notice.created_at|date:"M d, Y" }}</small>
+                                </div>
+                                <p class="mb-1 text-truncate">{{ notice.content|truncatewords:15 }}</p>
+                                <button class="btn btn-sm btn-link p-0" type="button" data-bs-toggle="modal" data-bs-target="#noticeModal{{ notice.id }}">
+                                    Read more
+                                </button>
+
+                                <!-- Notice Modal -->
+                                <div class="modal fade" id="noticeModal{{ notice.id }}" tabindex="-1" aria-labelledby="noticeModalLabel{{ notice.id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header {% if notice.important %}bg-danger text-white{% endif %}">
+                                                <h5 class="modal-title" id="noticeModalLabel{{ notice.id }}">{{ notice.title }}</h5>
+                                                <button type="button" class="btn-close {% if notice.important %}btn-close-white{% endif %}" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-muted mb-3">Posted on {{ notice.created_at|date:"F d, Y" }}</p>
+                                                <div class="mb-3">
+                                                    {{ notice.content|linebreaks }}
+                                                </div>
+                                                {% if notice.attachment %}
+                                                <div class="mt-3">
+                                                    <a href="{{ notice.attachment.url }}" class="btn btn-sm btn-outline-primary" download>
+                                                        <i class="fas fa-download me-1"></i> Download Attachment
+                                                    </a>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="p-4 text-center">
+                            <p class="text-muted mb-0">No notices available at the moment.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-white text-center">
+                        <a href="{% url 'courses:notice_list' %}" class="btn btn-outline-primary btn-sm">View All Notices</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-success text-white d-flex align-items-center">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        <h5 class="mb-0">Upcoming Events</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if upcoming_events %}
+                        <div class="list-group list-group-flush">
+                            {% for event in upcoming_events %}
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3 text-center">
+                                        <div class="event-date bg-light rounded p-2 mb-2 mb-md-0">
+                                            <div class="event-month text-primary">{{ event.start_date|date:"M" }}</div>
+                                            <div class="event-day h3 mb-0">{{ event.start_date|date:"d" }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h6 class="mb-1">{{ event.title }}</h6>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                            <small>{{ event.location }}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-clock text-muted me-2"></i>
+                                            <small>{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</small>
+                                        </div>
+                                        <button class="btn btn-sm btn-link p-0" type="button" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                                            View details
+                                        </button>
+
+                                        <!-- Event Modal -->
+                                        <div class="modal fade" id="eventModal{{ event.id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ event.id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-success text-white">
+                                                        <h5 class="modal-title" id="eventModalLabel{{ event.id }}">{{ event.title }}</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {% if event.image %}
+                                                        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-3">
+                                                        {% endif %}
+                                                        <div class="d-flex align-items-center mb-3">
+                                                            <div class="bg-light rounded p-2 me-3">
+                                                                <i class="fas fa-calendar-alt text-success"></i>
+                                                            </div>
+                                                            <div>
+                                                                <small class="text-muted d-block">Date & Time</small>
+                                                                <span>{{ event.start_date|date:"F d, Y" }} at {{ event.start_date|date:"g:i A" }}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center mb-3">
+                                                            <div class="bg-light rounded p-2 me-3">
+                                                                <i class="fas fa-map-marker-alt text-success"></i>
+                                                            </div>
+                                                            <div>
+                                                                <small class="text-muted d-block">Location</small>
+                                                                <span>{{ event.location }}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <h6>About this event</h6>
+                                                            <p>{{ event.description|linebreaks }}</p>
+                                                        </div>
+                                                        {% if event.registration_url %}
+                                                        <div class="text-center mt-4">
+                                                            <a href="{{ event.registration_url }}" class="btn btn-success" target="_blank">
+                                                                <i class="fas fa-user-plus me-2"></i> Register Now
+                                                            </a>
+                                                        </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="p-4 text-center">
+                            <p class="text-muted mb-0">No upcoming events at the moment.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-white text-center">
+                        <a href="{% url 'courses:event_list' %}" class="btn btn-outline-success btn-sm">View All Events</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Courses -->
+<section class="mb-5">
+    <div class="container">
+        <h2 class="mb-4">Featured Courses</h2>
+        <div class="row">
+            {% for course in courses|slice:":3" %}
+            <div class="col-md-4 mb-4">
+                <div class="card course-card h-100">
+                    {% if course.image %}
+                    <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/300x200" class="card-img-top" alt="{{ course.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.title }}</h5>
+                        <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-primary">${{ course.price }}</span>
+                            <a href="{% url 'courses:course_detail' course.pk %}" class="btn btn-outline-primary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="mb-5">
+    <div class="container">
+        <h2 class="mb-4">Browse by Category</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-3 mb-4">
+                <div class="card text-center h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        <p class="card-text">{{ category.description|truncatewords:10 }}</p>
+                        <a href="{% url 'courses:course_list' %}?category={{ category.id }}" class="btn btn-outline-primary">View Courses</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Why Choose Us</h2>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="h1 mb-3">📚</div>
+                <h4>Expert Instructors</h4>
+                <p>Learn from industry experts who are passionate about teaching.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="h1 mb-3">🎯</div>
+                <h4>Flexible Learning</h4>
+                <p>Study at your own pace, anywhere and anytime.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="h1 mb-3">📱</div>
+                <h4>Mobile Friendly</h4>
+                <p>Access your courses on any device, anywhere.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

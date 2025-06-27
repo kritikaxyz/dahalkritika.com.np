@@ -1,0 +1,406 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Events - EduPlatform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .event-header {
+        background: #fff !important;
+        color: #007bff !important;
+        padding: 5rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    .event-header h1 {
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #007bff !important;
+    }
+    .event-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #007bff;
+        border-radius: 10px;
+        overflow: hidden;
+        height: 100%;
+        background: #fff;
+    }
+    .event-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,123,255,0.08);
+    }
+    .event-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    .event-date-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        text-align: center;
+        min-width: 60px;
+        border: 1px solid #007bff;
+    }
+    .event-date-badge .month {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #007bff;
+        line-height: 1;
+    }
+    .event-date-badge .day {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #007bff;
+        line-height: 1.2;
+    }
+    .event-location, .event-time {
+        display: flex;
+        align-items: center;
+        color: #007bff !important;
+    }
+    .event-location i, .event-time i {
+        margin-right: 0.5rem;
+        width: 16px;
+        text-align: center;
+        color: #007bff !important;
+    }
+    .nav-pills .nav-link {
+        border-radius: 30px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        color: #007bff !important;
+        background: #fff !important;
+        border: 1px solid #007bff;
+    }
+    .nav-pills .nav-link.active {
+        background-color: #007bff !important;
+        color: #fff !important;
+    }
+    .tab-content {
+        padding-top: 2rem;
+    }
+    .past-events .event-card {
+        opacity: 0.7;
+    }
+    .past-events .event-card:hover {
+        opacity: 1;
+    }
+    .past-events .event-date-badge {
+        background: #fff;
+        border: 1px solid #007bff;
+    }
+    .past-events .event-date-badge .day {
+        color: #007bff;
+    }
+    .btn-register {
+        background: #007bff !important;
+        border: none;
+        color: #fff !important;
+        font-weight: 500;
+        padding: 0.5rem 1.25rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    .btn-register:hover {
+        background: #0056b3 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        color: #fff !important;
+    }
+    .badge.bg-info, .badge.bg-secondary {
+        background-color: #007bff !important;
+        color: #fff !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Event Header -->
+<div class="event-header">
+    <div class="container">
+        <h1>Events</h1>
+        <p class="lead">Discover and participate in our educational events and workshops</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Event Tabs -->
+    <ul class="nav nav-pills nav-justified mb-4" id="eventTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab">
+                <i class="fas fa-calendar-alt me-2"></i>Upcoming Events
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button" role="tab">
+                <i class="fas fa-history me-2"></i>Past Events
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- Upcoming Events -->
+        <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
+            {% if upcoming_events %}
+            <div class="row">
+                {% for event in upcoming_events %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card event-card">
+                        {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                        {% else %}
+                        <img src="{% static 'images/event-placeholder.jpg' %}" class="card-img-top" alt="{{ event.title }}">
+                        {% endif %}
+                        <div class="event-date-badge">
+                            <div class="month">{{ event.start_date|date:"M" }}</div>
+                            <div class="day">{{ event.start_date|date:"d" }}</div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.title }}</h5>
+
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ event.location }}</span>
+                            </div>
+                            <div class="event-time">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</span>
+                            </div>
+
+                            <p class="card-text mt-3">{{ event.description|truncatewords:20 }}</p>
+
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                                    <i class="fas fa-info-circle me-1"></i> Details
+                                </button>
+                                {% if event.registration_url %}
+                                <a href="{{ event.registration_url }}" class="btn btn-sm btn-register" target="_blank">
+                                    <i class="fas fa-user-plus me-1"></i> Register
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Modal -->
+                    <div class="modal fade" id="eventModal{{ event.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title">{{ event.title }}</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% if event.image %}
+                                            <img src="{{ event.image.url }}" class="img-fluid rounded" alt="{{ event.title }}">
+                                            {% else %}
+                                            <img src="{% static 'images/event-placeholder.jpg' %}" class="img-fluid rounded" alt="{{ event.title }}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">Event Details</h5>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="fas fa-calendar-alt text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Date</small>
+                                                    <span>{{ event.start_date|date:"F d, Y" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="fas fa-clock text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Time</small>
+                                                    <span>{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="fas fa-map-marker-alt text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Location</small>
+                                                    <span>{{ event.location }}</span>
+                                                </div>
+                                            </div>
+                                            {% if event.registration_url %}
+                                            <div class="mt-4">
+                                                <a href="{{ event.registration_url }}" class="btn btn-register w-100" target="_blank">
+                                                    <i class="fas fa-user-plus me-2"></i> Register for This Event
+                                                </a>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <h5>About This Event</h5>
+                                        <p>{{ event.description|linebreaks }}</p>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="badge bg-info me-2">Educational</span>
+                                            <span class="badge bg-secondary">Workshop</span>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-share-alt me-1"></i> Share
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i> No upcoming events at the moment. Check back soon for new events!
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Past Events -->
+        <div class="tab-pane fade past-events" id="past" role="tabpanel">
+            {% if past_events %}
+            <div class="row">
+                {% for event in past_events %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card event-card">
+                        {% if event.image %}
+                        <img src="{{ event.image.url }}" class="card-img-top" alt="{{ event.title }}">
+                        {% else %}
+                        <img src="{% static 'images/event-placeholder.jpg' %}" class="card-img-top" alt="{{ event.title }}">
+                        {% endif %}
+                        <div class="event-date-badge">
+                            <div class="month">{{ event.start_date|date:"M" }}</div>
+                            <div class="day">{{ event.start_date|date:"d" }}</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center mb-2">
+                                <h5 class="card-title mb-0">{{ event.title }}</h5>
+                                <span class="badge bg-secondary ms-2">Past</span>
+                            </div>
+
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ event.location }}</span>
+                            </div>
+                            <div class="event-time">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</span>
+                            </div>
+
+                            <p class="card-text mt-3">{{ event.description|truncatewords:20 }}</p>
+
+                            <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#pastEventModal{{ event.id }}">
+                                <i class="fas fa-photo-video me-1"></i> View Recap
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Past Event Modal -->
+                    <div class="modal fade" id="pastEventModal{{ event.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title">{{ event.title }} (Past Event)</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            {% if event.image %}
+                                            <img src="{{ event.image.url }}" class="img-fluid rounded" alt="{{ event.title }}">
+                                            {% else %}
+                                            <img src="{% static 'images/event-placeholder.jpg' %}" class="img-fluid rounded" alt="{{ event.title }}">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="mb-3">Event Details</h5>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="fas fa-calendar-alt text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Date</small>
+                                                    <span>{{ event.start_date|date:"F d, Y" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="fas fa-clock text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Time</small>
+                                                    <span>{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="bg-light rounded-circle p-2 me-3">
+                                                    <i class="fas fa-map-marker-alt text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <small class="text-muted d-block">Location</small>
+                                                    <span>{{ event.location }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <h5>About This Event</h5>
+                                        <p>{{ event.description|linebreaks }}</p>
+                                    </div>
+                                    <hr>
+                                    <h5>Event Highlights</h5>
+                                    <p class="text-muted">We'll add photos and highlights from this event soon. Check back later!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i> No past events available.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // Share event functionality (placeholder)
+        const shareButtons = document.querySelectorAll('.btn-outline-primary');
+        shareButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (this.innerHTML.includes('Share')) {
+                    e.preventDefault();
+                    alert('Sharing functionality would be implemented here.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
