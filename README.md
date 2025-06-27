@@ -39,3 +39,4 @@ python manage.py runserver
 ```
 
 Visit http://localhost:8000 to see the website. # ewpes
+# eastwest
