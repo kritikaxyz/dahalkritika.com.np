@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login-signup.css' %}">
+{% endblock %}
+
+{% block title %}Sign Up - EduPlatform{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="auth-card">
+    <h2>Sign Up</h2>
+    <form method="post" class="auth-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-group">
+        <label for="id_email">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="form-group">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        <label for="id_password1">Password</label>
+        {{ form.password1 }}
+      </div>
+      <div class="form-group">
+        <label for="id_password2">Confirm Password</label>
+        {{ form.password2 }}
+      </div>
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+      <div class="auth-links mt-3">
+        <a href="{% url 'account_login' %}">Already have an account? Login</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %} 

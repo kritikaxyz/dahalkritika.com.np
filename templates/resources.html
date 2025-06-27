@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Resources - EduPlatform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .resources-hero {
+        background: #fff !important;
+        color: #007bff !important;
+        padding: 6rem 0;
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+    .resources-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #007bff !important;
+    }
+    .resources-hero p {
+        font-size: 1.25rem;
+        max-width: 800px;
+        margin: 0 auto;
+        color: #007bff !important;
+    }
+    .resource-card {
+        height: 100%;
+        border: 1px solid #007bff;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 2rem;
+        background: #fff;
+    }
+    .resource-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,123,255,0.08);
+    }
+    .resource-card .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+    .resource-card .badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 0.5rem 0.75rem;
+        background: #007bff;
+        color: #fff;
+    }
+    .resource-card .card-body {
+        padding: 1.5rem;
+        color: #007bff !important;
+    }
+    .resource-card .card-title {
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: #007bff !important;
+    }
+    .resource-card .card-text {
+        color: #007bff !important;
+        margin-bottom: 1.5rem;
+    }
+    .resource-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        color: #007bff !important;
+        font-size: 0.875rem;
+    }
+    .resource-info i {
+        margin-right: 0.5rem;
+        color: #007bff !important;
+    }
+    .btn-resource {
+        background: #007bff !important;
+        color: #fff !important;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+    .btn-resource:hover {
+        background: #0056b3 !important;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        color: #fff !important;
+    }
+    .resource-filters {
+        margin-bottom: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .filter-btn {
+        border: 1px solid #007bff;
+        background: #fff;
+        color: #007bff;
+        border-radius: 30px;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    .filter-btn:hover, .filter-btn.active {
+        background: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+    .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+        padding-bottom: 1rem;
+        color: #007bff !important;
+    }
+    .section-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background: #007bff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="resources-hero">
+    <div class="container">
+        <h1 class="fade-in">Educational Resources</h1>
+        <p class="fade-in delay-1">Explore our collection of free educational materials, tools, and guides to enhance your learning journey.</p>
+    </div>
+</section>
+
+<!-- Resources Section -->
+<section class="container">
+    <h2 class="section-title fade-in">Browse Resources</h2>
+
+    <!-- Filters -->
+    <div class="resource-filters fade-in delay-1">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="ebooks">E-Books</button>
+        <button class="filter-btn" data-filter="videos">Video Tutorials</button>
+        <button class="filter-btn" data-filter="tools">Learning Tools</button>
+        <button class="filter-btn" data-filter="templates">Templates</button>
+        <button class="filter-btn" data-filter="guides">Study Guides</button>
+    </div>
+
+    <!-- Resource Cards -->
+    <div class="row">
+        <!-- E-Book -->
+        <div class="col-lg-4 col-md-6 fade-in delay-2" data-category="ebooks">
+            <div class="card resource-card">
+                <span class="badge bg-primary">E-Book</span>
+                <img src="{% static 'images/resource-ebook.jpg' %}" class="card-img-top" alt="E-Book">
+                <div class="card-body">
+                    <h4 class="card-title">The Complete Guide to Online Learning</h4>
+                    <div class="resource-info">
+                        <i class="far fa-clock"></i>
+                        <span>Last updated: June 15, 2025</span>
+                    </div>
+                    <div class="resource-info">
+                        <i class="far fa-file-pdf"></i>
+                        <span>PDF (8.2 MB)</span>
+                    </div>
+                    <p class="card-text">Learn effective strategies for online learning success with this comprehensive guide. Covers time management, digital tools, and more.</p>
+                    <a href="#" class="btn btn-resource"><i class="fas fa-download me-2"></i>Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Tutorial -->
+        <div class="col-lg-4 col-md-6 fade-in delay-3" data-category="videos">
+            <div class="card resource-card">
+                <span class="badge bg-danger">Video</span>
+                <img src="{% static 'images/resource-video.jpg' %}" class="card-img-top" alt="Video Tutorial">
+                <div class="card-body">
+                    <h4 class="card-title">Mastering Data Structures & Algorithms</h4>
+                    <div class="resource-info">
+                        <i class="far fa-clock"></i>
+                        <span>45 minutes</span>
+                    </div>
+                    <div class="resource-info">
+                        <i class="fas fa-video"></i>
+                        <span>HD Quality</span>
+                    </div>
+                    <p class="card-text">A comprehensive video tutorial covering fundamental data structures and algorithms with practical examples.</p>
+                    <a href="#" class="btn btn-resource"><i class="fas fa-play me-2"></i>Watch Now</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Tool -->
+        <div class="col-lg-4 col-md-6 fade-in delay-4" data-category="tools">
+            <div class="card resource-card">
+                <span class="badge bg-success">Tool</span>
+                <img src="{% static 'images/resource-tool.jpg' %}" class="card-img-top" alt="Learning Tool">
+                <div class="card-body">
+                    <h4 class="card-title">Interactive Code Editor</h4>
+                    <div class="resource-info">
+                        <i class="far fa-clock"></i>
+                        <span>Last updated: May 28, 2025</span>
+                    </div>
+                    <div class="resource-info">
+                        <i class="fas fa-code"></i>
+                        <span>Web-based</span>
+                    </div>
+                    <p class="card-text">Practice coding in real-time with our interactive editor. Supports multiple programming languages and provides instant feedback.</p>
+                    <a href="#" class="btn btn-resource"><i class="fas fa-external-link-alt me-2"></i>Launch Tool</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Template -->
+        <div class="col-lg-4 col-md-6 fade-in delay-2" data-category="templates">
+            <div class="card resource-card">
+                <span class="badge bg-info">Template</span>
+                <img src="{% static 'images/resource-template.jpg' %}" class="card-img-top" alt="Template">
+                <div class="card-body">
+                    <h4 class="card-title">Study Schedule Planner</h4>
+                    <div class="resource-info">
+                        <i class="far fa-clock"></i>
+                        <span>Last updated: April 10, 2025</span>
+                    </div>
+                    <div class="resource-info">
+                        <i class="far fa-file-excel"></i>
+                        <span>Excel (1.5 MB)</span>
+                    </div>
+                    <p class="card-text">Plan your study sessions effectively with this customizable schedule template. Includes time tracking and progress indicators.</p>
+                    <a href="#" class="btn btn-resource"><i class="fas fa-download me-2"></i>Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Guide -->
+        <div class="col-lg-4 col-md-6 fade-in delay-3" data-category="guides">
+            <div class="card resource-card">
+                <span class="badge bg-warning text-dark">Guide</span>
+                <img src="{% static 'images/resource-guide.jpg' %}" class="card-img-top" alt="Study Guide">
+                <div class="card-body">
+                    <h4 class="card-title">Complete Mathematics Formula Sheet</h4>
+                    <div class="resource-info">
+                        <i class="far fa-clock"></i>
+                        <span>Last updated: June 2, 2025</span>
+                    </div>
+                    <div class="resource-info">
+                        <i class="far fa-file-pdf"></i>
+                        <span>PDF (3.4 MB)</span>
+                    </div>
+                    <p class="card-text">A comprehensive collection of mathematical formulas covering algebra, calculus, statistics, and more. Perfect for quick reference.</p>
+                    <a href="#" class="btn btn-resource"><i class="fas fa-download me-2"></i>Download</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Tutorial -->
+        <div class="col-lg-4 col-md-6 fade-in delay-4" data-category="videos">
+            <div class="card resource-card">
+                <span class="badge bg-danger">Video</span>
+                <img src="{% static 'images/resource-video2.jpg' %}" class="card-img-top" alt="Video Tutorial">
+                <div class="card-body">
+                    <h4 class="card-title">Effective Note-Taking Strategies</h4>
+                    <div class="resource-info">
+                        <i class="far fa-clock"></i>
+                        <span>30 minutes</span>
+                    </div>
+                    <div class="resource-info">
+                        <i class="fas fa-video"></i>
+                        <span>HD Quality</span>
+                    </div>
+                    <p class="card-text">Learn proven note-taking methods to improve retention and understanding. Includes practical demonstrations and examples.</p>
+                    <a href="#" class="btn btn-resource"><i class="fas fa-play me-2"></i>Watch Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Signup -->
+    <div class="card bg-light mt-5 mb-5 fade-in">
+        <div class="card-body p-4 text-center">
+            <h3>Stay Updated</h3>
+            <p class="mb-4">Subscribe to our newsletter to receive notifications when new resources are added.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form class="d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email address" required>
+                        <button class="btn btn-resource">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Resource filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const resourceItems = document.querySelectorAll('[data-category]');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filterValue = this.getAttribute('data-filter');
+
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter resources
+                resourceItems.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = 1;
+                            item.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        item.style.opacity = 0;
+                        item.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

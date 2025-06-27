@@ -1,0 +1,143 @@
+/* Notice Board & Events Styling */
+
+/* Card styling */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Notice list items */
+.list-group-item {
+    transition: background-color 0.3s ease;
+    border-left: 0;
+    border-right: 0;
+}
+
+.list-group-item:hover {
+    background-color: rgba(0,0,0,0.02);
+}
+
+.list-group-item:first-child {
+    border-top: 0;
+}
+
+/* Important notice styling */
+.list-group-item.border-danger {
+    transition: border-color 0.3s ease;
+}
+
+/* Event date styling */
+.event-date {
+    border-radius: 8px;
+    padding: 10px;
+    width: 70px;
+    margin: 0 auto;
+}
+
+.event-month {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.event-day {
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Modal animations */
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out;
+    transform: translateY(-50px);
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+/* Card headers */
+.card-header {
+    border-bottom: 0;
+    padding: 1rem 1.25rem;
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+}
+
+.card-header.bg-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+}
+
+/* Read more and View details buttons */
+.btn-link {
+    color: #6366f1;
+    text-decoration: none;
+    padding: 0;
+    font-size: 0.875rem;
+}
+
+.btn-link:hover {
+    color: #4f46e5;
+    text-decoration: underline;
+}
+
+/* View All buttons */
+.card-footer {
+    background-color: transparent;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 1rem;
+}
+
+/* Badge styling */
+.badge.bg-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+}
+
+/* Event icons in modal */
+.modal-body .bg-light {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+/* Notice content in modal */
+.modal-body p {
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Empty state styling */
+.text-muted {
+    color: #6c757d !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .event-date {
+        width: 60px;
+    }
+
+    .event-day {
+        font-size: 1.5rem;
+    }
+
+    .list-group-item {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Blue and white theme for all backgrounds and text */
+body, .container { background: #fff; color: #007bff; }

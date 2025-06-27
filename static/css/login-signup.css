@@ -1,0 +1,108 @@
+/* Login & Signup Form Styles */
+.auth-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+}
+
+.auth-card {
+    background: #fff;
+    color: #111;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.10);
+    padding: 2.5rem 2rem;
+    max-width: 400px;
+    width: 100%;
+    margin: 2rem 0;
+}
+
+.auth-card h2 {
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #222;
+    text-align: center;
+}
+
+.auth-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 0.5rem;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #111;
+    background: #fff;
+    transition: border-color 0.3s;
+}
+
+.auth-form input:focus {
+    border-color: #6366f1;
+    outline: none;
+}
+
+.auth-form .btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.auth-form .btn-primary:hover {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    transform: translateY(-2px);
+}
+
+.auth-form .form-text {
+    color: #444;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+}
+
+.auth-form .form-check-label {
+    font-size: 0.95rem;
+    color: #111;
+}
+
+.auth-form .form-check-input:checked {
+    background-color: #6366f1;
+    border-color: #6366f1;
+}
+
+.auth-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.auth-links a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.auth-links a:hover {
+    color: #6366f1;
+    text-decoration: underline;
+}
+
+body, .auth-section {
+    background: #fff !important;
+} 

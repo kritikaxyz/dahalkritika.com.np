@@ -1,0 +1,245 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Notices - EduPlatform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .notice-header {
+        background: #fff !important;
+        color: #007bff !important;
+        padding: 5rem 0;
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    .notice-header h1 {
+        font-weight: 800;
+        margin-bottom: 1rem;
+        color: #007bff !important;
+    }
+    .notice-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #007bff;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        background: #fff;
+    }
+    .notice-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,123,255,0.08);
+    }
+    .notice-card.important {
+        border-left: 4px solid #007bff;
+    }
+    .notice-date {
+        font-size: 0.875rem;
+        color: #007bff !important;
+    }
+    .notice-content {
+        max-height: 100px;
+        overflow: hidden;
+        position: relative;
+        color: #007bff !important;
+    }
+    .notice-content.expanded {
+        max-height: none;
+    }
+    .notice-content::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40px;
+        background: linear-gradient(transparent, #fff);
+        pointer-events: none;
+    }
+    .notice-content.expanded::after {
+        display: none;
+    }
+    .notice-filters {
+        margin-bottom: 2rem;
+    }
+    .filter-btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 30px;
+        padding: 0.5rem 1.25rem;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+        border: 1px solid #007bff;
+        background: #fff;
+        color: #007bff;
+    }
+    .filter-btn:hover, .filter-btn.active {
+        background: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Notice Header -->
+<div class="notice-header">
+    <div class="container">
+        <h1>Notice Board</h1>
+        <p class="lead">Stay updated with the latest announcements and information</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Notice Filters -->
+    <div class="notice-filters">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <div>
+                <button class="btn btn-outline-primary filter-btn active" data-filter="all">All Notices</button>
+                <button class="btn btn-outline-danger filter-btn" data-filter="important">Important</button>
+                <button class="btn btn-outline-secondary filter-btn" data-filter="recent">Recent (Last 7 Days)</button>
+            </div>
+            <div class="input-group mb-0 mt-2 mt-md-0" style="max-width: 300px;">
+                <input type="text" class="form-control" placeholder="Search notices..." id="noticeSearch">
+                <button class="btn btn-outline-secondary" type="button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notices List -->
+    <div class="row" id="noticesList">
+        {% if notices %}
+            {% for notice in notices %}
+            <div class="col-lg-12 notice-item {% if notice.important %}important{% endif %}" data-date="{{ notice.created_at|date:'Y-m-d' }}">
+                <div class="card notice-card {% if notice.important %}important{% endif %}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0">
+                                {% if notice.important %}
+                                <span class="badge bg-danger me-2">Important</span>
+                                {% endif %}
+                                {{ notice.title }}
+                            </h5>
+                            <span class="notice-date">{{ notice.created_at|date:"F d, Y" }}</span>
+                        </div>
+                        <div class="notice-content mb-3">
+                            {{ notice.content|linebreaks }}
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-sm btn-link p-0 read-more">Read more</button>
+                            {% if notice.attachment %}
+                            <a href="{{ notice.attachment.url }}" class="btn btn-sm btn-outline-primary" download>
+                                <i class="fas fa-download me-1"></i> Download Attachment
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="fas fa-info-circle me-2"></i> No notices available at the moment.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    {% if notices.has_other_pages %}
+    <nav aria-label="Notice pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if notices.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ notices.previous_page_number }}"><i class="fas fa-chevron-left"></i></a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+            </li>
+            {% endif %}
+
+            {% for i in notices.paginator.page_range %}
+                {% if notices.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if notices.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ notices.next_page_number }}"><i class="fas fa-chevron-right"></i></a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Read more functionality
+        const readMoreButtons = document.querySelectorAll('.read-more');
+        readMoreButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const content = this.closest('.card-body').querySelector('.notice-content');
+                content.classList.toggle('expanded');
+                this.textContent = content.classList.contains('expanded') ? 'Show less' : 'Read more';
+            });
+        });
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const noticeItems = document.querySelectorAll('.notice-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Toggle active class
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.getAttribute('data-filter');
+                const currentDate = new Date();
+                const sevenDaysAgo = new Date(currentDate.getTime() - (7 * 24 * 60 * 60 * 1000));
+
+                noticeItems.forEach(item => {
+                    if (filter === 'all') {
+                        item.style.display = 'block';
+                    } else if (filter === 'important') {
+                        item.style.display = item.classList.contains('important') ? 'block' : 'none';
+                    } else if (filter === 'recent') {
+                        const noticeDate = new Date(item.getAttribute('data-date'));
+                        item.style.display = noticeDate >= sevenDaysAgo ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('noticeSearch');
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+
+            noticeItems.forEach(item => {
+                const title = item.querySelector('.card-title').textContent.toLowerCase();
+                const content = item.querySelector('.notice-content').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
