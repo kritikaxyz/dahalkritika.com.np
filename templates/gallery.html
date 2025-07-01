@@ -4,16 +4,23 @@
 <div class="container py-5">
     <h1 class="mb-4 text-center">Gallery</h1>
     <div class="row" id="gallery-row">
-        <!-- Example images, replace with your own -->
-        <div class="col-md-4 mb-4">
-            <img src="https://via.placeholder.com/400x300" class="img-fluid rounded shadow-sm" alt="Gallery Image 1">
-        </div>
-        <div class="col-md-4 mb-4">
-            <img src="https://via.placeholder.com/400x300" class="img-fluid rounded shadow-sm" alt="Gallery Image 2">
-        </div>
-        <div class="col-md-4 mb-4">
-            <img src="https://via.placeholder.com/400x300" class="img-fluid rounded shadow-sm" alt="Gallery Image 3">
-        </div>
+        {% if gallery_images %}
+            {% for img in gallery_images %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ img.image.url }}" class="img-fluid rounded-top" alt="{{ img.title|default:'Gallery Image' }}">
+                    {% if img.title or img.description %}
+                    <div class="card-body">
+                        {% if img.title %}<h5 class="card-title">{{ img.title }}</h5>{% endif %}
+                        {% if img.description %}<p class="card-text">{{ img.description }}</p>{% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center text-muted">No gallery images available.</div>
+        {% endif %}
     </div>
 </div>
 {% endblock %} 

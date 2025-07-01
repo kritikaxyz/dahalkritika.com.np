@@ -85,3 +85,67 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.course.title}"
+
+class AdvNotice(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    image = models.ImageField(upload_to='advnotice_images/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    nepali_date = models.CharField(max_length=20, blank=True, help_text='Date in Nepali calendar (e.g., 2081-03-15)')
+    active = models.BooleanField(default=True, help_text='Show this notice in the modal if active')
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Advertisement/Notice'
+        verbose_name_plural = 'Advertisements/Notices'
+
+    def __str__(self):
+        return self.title
+
+class Download(models.Model):
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to='downloads/')
+    description = models.TextField(blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Staff(models.Model):
+    STAFF_TYPE_CHOICES = [
+        ("teaching", "Teaching Staff"),
+        ("non_teaching", "Non-Teaching Staff"),
+    ]
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=20, choices=STAFF_TYPE_CHOICES, default="teaching")
+    designation = models.CharField(max_length=100, blank=True, null=True)  # Subject or Role
+    photo = models.ImageField(upload_to='staff_photos/', blank=True, null=True)
+    bio = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"{self.get_type_display()} - {self.name}"
+
+class ExecutiveMessage(models.Model):
+    EXECUTIVE_ROLES = [
+        ("principal", "Principal"),
+        ("managing_director", "Managing Director"),
+        ("vice_principal", "Vice Principal"),
+    ]
+    role = models.CharField(max_length=30, choices=EXECUTIVE_ROLES)
+    name = models.CharField(max_length=100)
+    photo = models.ImageField(upload_to='executive_photos/', blank=True, null=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.get_role_display()} - {self.name}"
+
+class GalleryImage(models.Model):
+    image = models.ImageField(upload_to='gallery_images/')
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title or f"Gallery Image {self.pk}"

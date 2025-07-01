@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Course, Lesson, Enrollment, Notice, Event
+from .models import Category, Course, Lesson, Enrollment, Notice, Event, AdvNotice, Download, Staff, ExecutiveMessage, GalleryImage
 
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'important')
@@ -12,7 +12,22 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description', 'location')
     readonly_fields = ('is_upcoming',)
 
+class AdvNoticeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'nepali_date', 'active', 'created_at')
+    list_filter = ('active', 'created_at')
+    search_fields = ('title', 'content', 'nepali_date')
+
+class StaffAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type', 'designation')
+    list_filter = ('type',)
+    search_fields = ('name', 'designation')
+
 admin.site.register(Notice, NoticeAdmin)
 admin.site.register(Event, EventAdmin)
+admin.site.register(AdvNotice, AdvNoticeAdmin)
+admin.site.register(Download)
+admin.site.register(Staff, StaffAdmin)
+admin.site.register(ExecutiveMessage)
+admin.site.register(GalleryImage)
 
 # Register your models here.

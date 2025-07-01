@@ -4,5 +4,55 @@
 <div class="container py-5">
     <h1 class="mb-4 text-center">Teachers & Staff</h1>
     <p class="text-center">Meet our dedicated teachers and staff members.</p>
+    {% if teachers_staff %}
+    <div class="table-responsive mt-5">
+        <h2 class="mb-3 text-center">Teaching Staff</h2>
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-white">
+                <tr>
+                    <th style="width:60px;">S.N</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for staff in teachers_staff %}
+                {% if staff.type == 'teaching' %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.designation|default_if_none:'-' }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive mt-5">
+        <h2 class="mb-3 text-center">Non-Teaching Staff</h2>
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-white">
+                <tr>
+                    <th style="width:60px;">S.N</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for staff in teachers_staff %}
+                {% if staff.type == 'non_teaching' %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.designation|default_if_none:'-' }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center mt-4">No teachers or staff available at the moment.</div>
+    {% endif %}
 </div>
 {% endblock %} 

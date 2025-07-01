@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/pattern.svg' %}">
     <!-- Custom CSS -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
@@ -18,13 +23,50 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Notification Banner -->
-    {% include 'notification_banner.html' %}
+    <!-- Ads Popup Modal -->
+    <div class="modal fade" id="adsModal" tabindex="-1" aria-labelledby="adsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="adsModalLabel">Notices!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="adsModalCloseBtn"></button>
+                </div>
+                <div class="modal-body">
+                    {% for ad in ads_notices %}
+                    <div class="ad-content ad-slide" id="ad-slide-{{ forloop.counter0 }}" style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                        <div class="ad-image mb-3">
+                            <img src="{{ ad.image.url }}" alt="Ad Image" class="img-fluid rounded">
+                        </div>
+                        {% if ad.nepali_date %}
+                        <div class="text-center mb-2">
+                            <span class="badge bg-danger fs-6">{{ ad.nepali_date }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Header Bar -->
+    <div class="top-header-bar">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap py-1">
+            <div class="header-contact d-flex align-items-center flex-wrap gap-3">
+                <span><i class="fas fa-envelope me-1"></i> Ewpesschool@gmail.com</span>
+                <span><i class="fas fa-phone-alt me-1"></i> 025-475281</span>
+                <span><i class="fas fa-map-marker-alt me-1"></i> Tarahara 20, Itahari, Nepal</span>
+            </div>
+            <div class="header-actions d-flex align-items-center gap-2">
+                <span class="header-hours ms-3"><i class="far fa-clock me-1"></i> Sunday - Friday / 9AM - 5PM</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'courses:home' %}">EduPlatform</a>
+            <a class="navbar-brand" href="{% url 'courses:home' %}">EWPES</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -48,34 +90,10 @@
                         <a class="nav-link" href="{% url 'gallery' %}"><i class="fas fa-camera me-1"></i>Gallery</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'resources' %}"><i class="fas fa-book me-1"></i>Resources</a>
+                        <a class="nav-link" href="{% url 'notices' %}"><i class="fas fa-book me-1"></i>Notices</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'contact' %}"><i class="fas fa-envelope me-1"></i>Contact</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            {{ user.username }}
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
-                        </ul>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <button class="btn btn-link nav-link dark-mode-toggle">
-                            <i class="fas fa-moon"></i>
-                        </button>
                     </li>
                 </ul>
             </div>
@@ -101,36 +119,49 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>About Us</h5>
-                    <p>Your trusted platform for online education.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{% url 'courses:home' %}">Home</a></li>
-                        <li><a href="{% url 'courses:course_list' %}">Courses</a></li>
-                        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+    <footer class="custom-footer">
+        <div class="footer-main container">
+            <div class="footer-row three-cols">
+                <!-- Useful Links -->
+                <div class="footer-col">
+                    <h4>Useful Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://www.nepalpolice.gov.np/" target="_blank">Nepal Police</a></li>
+                        <li><a href="https://moe.gov.np/" target="_blank">Ministry of Education</a></li>
+                        <li><a href="https://doe.gov.np/" target="_blank">Department of Education</a></li>
+                        <li><a href="https://hseb.edu.np/" target="_blank">Higher Secondary Education Board</a></li>
+                        <li><a href="https://www.soce.gov.np/" target="_blank">Office of Controller of Examinations</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5>Contact</h5>
-                    <p>Email: contact@eduplatform.com</p>
-                    <div class="social-links mt-3">
-                        <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="me-3"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
+                <!-- Location Map -->
+                <div class="footer-col">
+                    <h4>Location</h4>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.123456789!2d87.2800000!3d26.6500000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef41b0b0b0b0b0%3A0x123456789abcdef!2sVishwa%20Adarsha%20School!5e0!3m2!1sen!2snp!4v1680000000000!5m2!1sen!2snp"
+                        width="350" height="220" style="border:0; width:100%; max-width:350px;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <!-- Contact & Hours -->
+                <div class="footer-col">
+                    <h4>Contact & Hours</h4>
+                    <ul class="footer-contact-info list-unstyled mb-3">
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Tarahara 20, Itahari, Nepal</li>
+                        <li><i class="fas fa-phone-alt me-2"></i> 025-475281</li>
+                        <li><i class="fas fa-envelope me-2"></i> Ewpesschool@gmail.com</li>
+                    </ul>
                 </div>
             </div>
-            <hr class="mt-4">
-            <div class="text-center py-3">
-                <p class="mb-0">&copy; {% now "Y" %} EduPlatform. All rights reserved.</p>
-            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 All Rights Reserved. Developed by YarshaSoft.</span>
+            <nav>
+                <a href="#">Subscribe Us</a>
+                <span class="footer-dot">FAQ</span>
+                <a href="#">Copyright</a>
+                <span class="footer-dot">Terms of Use</span>
+                <a href="#">Privacy Policy</a>
+                <span class="footer-dot">Contact Us</span>
+                <a href="https://www.facebook.com/profile.php?id=100082040357316" target="_blank" class="ms-3" style="color:#1877f3;font-weight:600;"><i class="fab fa-facebook-f me-1"></i>Follow us on Facebook</a>
+            </nav>
         </div>
     </footer>
 
@@ -139,6 +170,32 @@
     <!-- Custom JavaScript -->
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/notices-events.js' %}"></script>
+    
+    <!-- Ads Popup Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentAd = 0;
+        var adSlides = document.querySelectorAll('.ad-slide');
+        var adsModal = document.getElementById('adsModal');
+        var closeBtn = document.getElementById('adsModalCloseBtn');
+        if (adSlides.length > 0) {
+            setTimeout(function() {
+                var modal = new bootstrap.Modal(adsModal);
+                modal.show();
+            }, 2000);
+        }
+        adsModal.addEventListener('hidden.bs.modal', function () {
+            if (adSlides.length > 0 && currentAd < adSlides.length - 1) {
+                adSlides[currentAd].style.display = 'none';
+                currentAd++;
+                adSlides[currentAd].style.display = 'block';
+                var modal = new bootstrap.Modal(adsModal);
+                setTimeout(function() { modal.show(); }, 200);
+            }
+        });
+    });
+    </script>
+    
     {% block extra_js %}{% endblock %}
 </body>
 </html> 
