@@ -1,32 +1,39 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home - Education Platform{% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<div class="bg-light py-5 mb-5">
+<div class="home-hero position-relative" style="background: url('{% static 'images/schoolimg.jpg' %}') center center/cover no-repeat; min-height: 520px;">
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.32);"></div>
+</div>
+
+<!-- School Welcome Section -->
+<section class="py-5 bg-white">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-6">
-                <h1 class="display-4 fw-bold">Learn Without Limits</h1>
-                <p class="lead" style="color: #111;">Start, switch, or advance your career with thousands of courses from expert instructors.</p>
-                <a href="{% url 'courses:course_list' %}" class="btn btn-primary btn-lg">Browse Courses</a>
+            <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+                <img src="{% static 'images/schoolimg.png' %}" alt="School Photo" class="img-fluid rounded shadow" style="max-width: 100%; height: auto;">
             </div>
-            <div class="col-md-6">
-                <img src="https://via.placeholder.com/600x400" alt="Education" class="img-fluid rounded">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Welcome to Vishwa Adarsha Secondary School</h2>
+                <p style="font-size:1.15rem;line-height:1.7;">
+                    It is a matter of great honor for the Vishwa Adarsha family that Vishwa Adarsha Secondary School, Itahari, has stepped into the 5 years of the glorious march towards imparting quality education to the students, particularly in the Eastern region of Nepal. We proudly acknowledge the participation of the teachers, students, parents, and the general public to make this institution a center for academic excellence in this beautiful town. We feel proud to share our success that we have successfully produced some of the best minds in the country.
+                </p>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Notice Board & Upcoming Events -->
-<section class="mb-5">
+<section class="home-notices-events mb-5">
     <div class="container">
         <div class="row">
             <!-- Notice Board -->
             <div class="col-lg-6 mb-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <div class="card-header bg-blue text-white d-flex align-items-center">
                         <i class="fas fa-bullhorn me-2"></i>
                         <h5 class="mb-0">Recent Notices</h5>
                     </div>
@@ -34,18 +41,18 @@
                         {% if notices %}
                         <div class="list-group list-group-flush">
                             {% for notice in notices %}
-                            <div class="list-group-item list-group-item-action p-3 {% if notice.important %}border-start border-danger border-4{% endif %}">
+                            <div class="list-group-item list-group-item-action p-3 {% if notice.important %}border-start border-blue border-4{% endif %}">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h6 class="mb-2">
                                         {% if notice.important %}
-                                        <span class="badge bg-danger me-2">Important</span>
+                                        <span class="badge bg-blue me-2">Important</span>
                                         {% endif %}
                                         {{ notice.title }}
                                     </h6>
-                                    <small class="text-muted">{{ notice.created_at|date:"M d, Y" }}</small>
+                                    <small class="text-blue">{{ notice.created_at|date:"M d, Y" }}</small>
                                 </div>
                                 <p class="mb-1 text-truncate">{{ notice.content|truncatewords:15 }}</p>
-                                <button class="btn btn-sm btn-link p-0" type="button" data-bs-toggle="modal" data-bs-target="#noticeModal{{ notice.id }}">
+                                <button class="btn btn-sm btn-link p-0 text-blue" type="button" data-bs-toggle="modal" data-bs-target="#noticeModal{{ notice.id }}">
                                     Read more
                                 </button>
 
@@ -53,12 +60,12 @@
                                 <div class="modal fade" id="noticeModal{{ notice.id }}" tabindex="-1" aria-labelledby="noticeModalLabel{{ notice.id }}" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
-                                            <div class="modal-header {% if notice.important %}bg-danger text-white{% endif %}">
+                                            <div class="modal-header bg-blue text-white">
                                                 <h5 class="modal-title" id="noticeModalLabel{{ notice.id }}">{{ notice.title }}</h5>
-                                                <button type="button" class="btn-close {% if notice.important %}btn-close-white{% endif %}" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p class="text-muted mb-3">Posted on {{ notice.created_at|date:"F d, Y" }}</p>
+                                                <p class="text-blue mb-3">Posted on {{ notice.created_at|date:"F d, Y" }}</p>
                                                 <div class="mb-3">
                                                     {{ notice.content|linebreaks }}
                                                 </div>
@@ -81,7 +88,7 @@
                         </div>
                         {% else %}
                         <div class="p-4 text-center">
-                            <p class="text-muted mb-0">No notices available at the moment.</p>
+                            <p class="text-blue mb-0">No notices available at the moment.</p>
                         </div>
                         {% endif %}
                     </div>
@@ -94,7 +101,7 @@
             <!-- Upcoming Events -->
             <div class="col-lg-6 mb-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <div class="card-header bg-success text-white d-flex align-items-center">
+                    <div class="card-header bg-blue text-white d-flex align-items-center">
                         <i class="fas fa-calendar-alt me-2"></i>
                         <h5 class="mb-0">Upcoming Events</h5>
                     </div>
@@ -105,22 +112,22 @@
                             <div class="list-group-item p-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-3 text-center">
-                                        <div class="event-date bg-light rounded p-2 mb-2 mb-md-0">
-                                            <div class="event-month text-primary">{{ event.start_date|date:"M" }}</div>
-                                            <div class="event-day h3 mb-0">{{ event.start_date|date:"d" }}</div>
+                                        <div class="event-date bg-white-off rounded p-2 mb-2 mb-md-0">
+                                            <div class="event-month text-blue">{{ event.start_date|date:"M" }}</div>
+                                            <div class="event-day h3 mb-0 text-blue">{{ event.start_date|date:"d" }}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-9">
-                                        <h6 class="mb-1">{{ event.title }}</h6>
+                                        <h6 class="mb-1 text-blue">{{ event.title }}</h6>
                                         <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-map-marker-alt text-muted me-2"></i>
-                                            <small>{{ event.location }}</small>
+                                            <i class="fas fa-map-marker-alt text-blue me-2"></i>
+                                            <small class="text-blue">{{ event.location }}</small>
                                         </div>
                                         <div class="d-flex align-items-center mb-2">
-                                            <i class="fas fa-clock text-muted me-2"></i>
-                                            <small>{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</small>
+                                            <i class="fas fa-clock text-blue me-2"></i>
+                                            <small class="text-blue">{{ event.start_date|date:"g:i A" }} - {{ event.end_date|date:"g:i A" }}</small>
                                         </div>
-                                        <button class="btn btn-sm btn-link p-0" type="button" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                                        <button class="btn btn-sm btn-link p-0 text-blue" type="button" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
                                             View details
                                         </button>
 
@@ -128,7 +135,7 @@
                                         <div class="modal fade" id="eventModal{{ event.id }}" tabindex="-1" aria-labelledby="eventModalLabel{{ event.id }}" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
-                                                    <div class="modal-header bg-success text-white">
+                                                    <div class="modal-header bg-blue text-white">
                                                         <h5 class="modal-title" id="eventModalLabel{{ event.id }}">{{ event.title }}</h5>
                                                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
@@ -137,30 +144,30 @@
                                                         <img src="{{ event.image.url }}" alt="{{ event.title }}" class="img-fluid rounded mb-3">
                                                         {% endif %}
                                                         <div class="d-flex align-items-center mb-3">
-                                                            <div class="bg-light rounded p-2 me-3">
-                                                                <i class="fas fa-calendar-alt text-success"></i>
+                                                            <div class="bg-white-off rounded p-2 me-3">
+                                                                <i class="fas fa-calendar-alt text-blue"></i>
                                                             </div>
                                                             <div>
-                                                                <small class="text-muted d-block">Date & Time</small>
-                                                                <span>{{ event.start_date|date:"F d, Y" }} at {{ event.start_date|date:"g:i A" }}</span>
+                                                                <small class="text-blue d-block">Date & Time</small>
+                                                                <span class="text-blue">{{ event.start_date|date:"F d, Y" }} at {{ event.start_date|date:"g:i A" }}</span>
                                                             </div>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-3">
-                                                            <div class="bg-light rounded p-2 me-3">
-                                                                <i class="fas fa-map-marker-alt text-success"></i>
+                                                            <div class="bg-white-off rounded p-2 me-3">
+                                                                <i class="fas fa-map-marker-alt text-blue"></i>
                                                             </div>
                                                             <div>
-                                                                <small class="text-muted d-block">Location</small>
-                                                                <span>{{ event.location }}</span>
+                                                                <small class="text-blue d-block">Location</small>
+                                                                <span class="text-blue">{{ event.location }}</span>
                                                             </div>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <h6>About this event</h6>
-                                                            <p>{{ event.description|linebreaks }}</p>
+                                                            <h6 class="text-blue">About this event</h6>
+                                                            <p class="text-blue">{{ event.description|linebreaks }}</p>
                                                         </div>
                                                         {% if event.registration_url %}
                                                         <div class="text-center mt-4">
-                                                            <a href="{{ event.registration_url }}" class="btn btn-success" target="_blank">
+                                                            <a href="{{ event.registration_url }}" class="btn btn-primary" target="_blank">
                                                                 <i class="fas fa-user-plus me-2"></i> Register Now
                                                             </a>
                                                         </div>
@@ -179,12 +186,12 @@
                         </div>
                         {% else %}
                         <div class="p-4 text-center">
-                            <p class="text-muted mb-0">No upcoming events at the moment.</p>
+                            <p class="text-blue mb-0">No upcoming events at the moment.</p>
                         </div>
                         {% endif %}
                     </div>
                     <div class="card-footer bg-white text-center">
-                        <a href="{% url 'courses:event_list' %}" class="btn btn-outline-success btn-sm">View All Events</a>
+                        <a href="{% url 'courses:event_list' %}" class="btn btn-outline-primary btn-sm">View All Events</a>
                     </div>
                 </div>
             </div>
@@ -192,10 +199,26 @@
     </div>
 </section>
 
-<!-- Featured Courses -->
-<section class="mb-5">
+<!-- Map Section -->
+<section class="py-5 bg-light">
     <div class="container">
-        <h2 class="mb-4">Featured Courses</h2>
+        <h2 class="text-center mb-4">Find Us on the Map</h2>
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div style="width: 100%; height: 450px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.123456789!2d87.2701217!3d26.7002289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef6b2aca36603b%3A0x588fd16665507730!2sEast%20West%20Point%20English%20Boarding%20School!5e0!3m2!1sen!2snp!4v1680000000000!5m2!1sen!2snp"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Courses -->
+<section class="home-featured-courses mb-5">
+    <div class="container">
+        <h2 class="mb-4 text-blue">Featured Courses</h2>
         <div class="row">
             {% for course in courses|slice:":3" %}
             <div class="col-md-4 mb-4">

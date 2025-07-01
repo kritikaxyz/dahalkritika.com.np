@@ -23,12 +23,11 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('courses.urls')),
-    path('accounts/', include('allauth.urls')),
     path('about/', views.about_view, name='about'),
     path('downloads/', views.downloads_view, name='downloads'),
     path('teachers-staff/', views.teachers_staff_view, name='teachers_staff'),
     path('executive-message/', views.executive_message_view, name='executive_message'),
-    path('resources/', views.resources_view, name='resources'),
+    path('notices/', views.resources_view, name='notices'),
     path('contact/', views.contact_view, name='contact'),
     path('gallery/', views.gallery_view, name='gallery'),
 ] 

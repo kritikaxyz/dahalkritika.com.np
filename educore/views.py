@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from courses.models import AdvNotice, Download, ExecutiveMessage, GalleryImage, Staff
+from django.core.exceptions import ValidationError
+from PIL import Image
 
 def about_view(request):
     """View function for the About Us page"""
@@ -48,13 +51,21 @@ def contact_view(request):
     return render(request, 'contact_form.html')
 
 def gallery_view(request):
-    return render(request, 'gallery.html')
+    gallery_images = GalleryImage.objects.all().order_by('-uploaded_at')
+    return render(request, 'gallery.html', {'gallery_images': gallery_images})
 
 def downloads_view(request):
-    return render(request, 'downloads.html')
+    downloads = Download.objects.all().order_by('-uploaded_at')
+    return render(request, 'downloads.html', {'downloads': downloads})
 
 def teachers_staff_view(request):
-    return render(request, 'teachers_staff.html')
+    teachers_staff = Staff.objects.all().order_by('name')
+    return render(request, 'teachers_staff.html', {'teachers_staff': teachers_staff})
 
 def executive_message_view(request):
-    return render(request, 'executive_message.html')
+    executive_messages = ExecutiveMessage.objects.all().order_by('role')
+    return render(request, 'executive_message.html', {'executive_messages': executive_messages})
+
+def ads_notice_context(request):
+    ads_notices = AdvNotice.objects.filter(active=True, image__isnull=False).order_by('-created_at')
+    return {'ads_notices': ads_notices}

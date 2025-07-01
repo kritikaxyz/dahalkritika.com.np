@@ -6,23 +6,40 @@
 {% block extra_css %}
 <style>
     .about-hero {
-        background: #fff !important;
-        color: #007bff !important;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+        color: #ffffff !important;
         padding: 6rem 0;
         margin-bottom: 3rem;
         text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .about-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        opacity: 0.3;
+    }
+    .about-hero .container {
+        position: relative;
+        z-index: 2;
     }
     .about-hero h1 {
         font-size: 3rem;
         font-weight: 800;
         margin-bottom: 1rem;
-        color: #007bff !important;
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
     .about-hero p {
         font-size: 1.25rem;
         max-width: 800px;
         margin: 0 auto;
-        color: #007bff !important;
+        color: rgba(255, 255, 255, 0.9) !important;
     }
     .team-member {
         text-align: center;
@@ -35,7 +52,7 @@
         border-radius: 50%;
         margin-bottom: 1rem;
         border: 5px solid #fff;
-        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
         transition: transform 0.3s ease;
     }
     .team-member img:hover {
@@ -44,11 +61,11 @@
     .team-member h5 {
         font-weight: 600;
         margin-bottom: 0.5rem;
-        color: #007bff !important;
+        color: #2563eb !important;
     }
     .team-member .text-muted {
         font-size: 0.875rem;
-        color: #007bff !important;
+        color: #2563eb !important;
     }
     .social-links {
         margin-top: 1rem;
@@ -61,13 +78,13 @@
         height: 36px;
         background: #fff;
         border-radius: 50%;
-        color: #007bff;
+        color: #2563eb;
         margin: 0 0.25rem;
         transition: all 0.3s ease;
-        border: 1px solid #007bff;
+        border: 1px solid #2563eb;
     }
     .social-links a:hover {
-        background: #007bff;
+        background: #2563eb;
         color: #fff;
         transform: translateY(-3px);
     }
@@ -76,25 +93,25 @@
         padding: 2rem;
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0,123,255,0.08);
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
         margin-bottom: 2rem;
     }
     .milestone i {
         font-size: 2.5rem;
-        color: #007bff;
+        color: #2563eb;
         margin-bottom: 1rem;
     }
     .milestone h2 {
         font-size: 3rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
-        color: #007bff !important;
+        color: #2563eb !important;
         background: none !important;
         -webkit-background-clip: unset;
         -webkit-text-fill-color: unset;
     }
     .milestone p {
-        color: #007bff !important;
+        color: #2563eb !important;
         font-weight: 500;
     }
     .about-section {
@@ -105,7 +122,7 @@
         margin-bottom: 3rem;
         position: relative;
         padding-bottom: 1rem;
-        color: #007bff !important;
+        color: #2563eb !important;
     }
     .about-section h2:after {
         content: '';
@@ -115,7 +132,31 @@
         transform: translateX(-50%);
         width: 100px;
         height: 3px;
-        background: #007bff;
+        background: #2563eb;
+    }
+    .why-choose-us-list {
+        list-style: none;
+        padding: 0;
+        margin: 2rem auto 0 auto;
+    }
+    .why-choose-us-list li {
+        position: relative;
+        padding-left: 2.2em;
+        margin-bottom: 1.1em;
+        font-size: 1.15rem;
+        color: #111;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        line-height: 1.6;
+    }
+    .why-choose-us-list li::before {
+        content: '\2022';
+        position: absolute;
+        left: 0;
+        top: 0.1em;
+        font-size: 2em;
+        color: #dc2323;
+        line-height: 1;
     }
 </style>
 {% endblock %}
@@ -143,6 +184,26 @@
                 <img src="{% static 'images/about-story.jpg' %}" alt="Our Story" class="img-fluid rounded shadow">
             </div>
         </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="about-section bg-light py-5">
+    <div class="container">
+        <h2 class="fade-in">Why Choose Us</h2>
+        <ul class="why-choose-us-list fade-in delay-1" style="max-width: 900px; margin: 0 auto;">
+            <li>Qualified teaching faculty</li>
+            <li>Yoga and meditation classes</li>
+            <li>Huge football field and children's park</li>
+            <li>Library with sufficient reading materials</li>
+            <li>Digital classroom with projector and smart board</li>
+            <li>Care and counseling to foster the skill of children</li>
+            <li>Large cafeteria to serve food for each and every student</li>
+            <li>Sufficient infrastructure to conduct teaching-learning activities without friction</li>
+            <li>Transportation facility to assist students residing far away from school premises</li>
+            <li>Experts guided extra-curricular activities for the all-round development of students</li>
+            <li>Safe and secure environment with the provision of security personnel and CCTV cameras</li>
+        </ul>
     </div>
 </section>
 

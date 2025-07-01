@@ -4,5 +4,76 @@
 <div class="container py-5">
     <h1 class="mb-4 text-center">Downloads</h1>
     <p class="text-center">Download important documents and resources here.</p>
+    {% if downloads %}
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-8">
+            <ul class="list-group list-group-flush downloads-list">
+                {% for download in downloads %}
+                <li class="list-group-item d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-3 fade-in-download">
+                    <div>
+                        <h5 class="mb-1">{{ download.title }}</h5>
+                        {% if download.description %}<p class="mb-1 text-muted">{{ download.description }}</p>{% endif %}
+                        <small class="text-secondary">Uploaded: {{ download.uploaded_at|date:"F d, Y" }}</small>
+                    </div>
+                    <div class="mt-2 mt-md-0">
+                        <a href="{{ download.file.url }}" class="btn btn-outline-primary" download>
+                            <i class="fas fa-download me-1"></i> Download
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center mt-4">No downloads available at the moment.</div>
+    {% endif %}
 </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.downloads-list .list-group-item {
+    background: #fff;
+    color: #111;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.downloads-list .btn-outline-primary {
+    color: #dc2323;
+    border-color: #dc2323;
+}
+.downloads-list .btn-outline-primary:hover {
+    background: #dc2323;
+    color: #fff;
+    border-color: #dc2323;
+}
+.downloads-list .text-muted,
+.downloads-list .text-secondary,
+.downloads-list h5,
+.downloads-list p,
+.downloads-list small {
+    color: #111 !important;
+}
+ul.downloads-list .list-group-item,
+ul.downloads-list .text-muted,
+ul.downloads-list .text-secondary,
+ul.downloads-list h5,
+ul.downloads-list p,
+ul.downloads-list small {
+    color: #111 !important;
+    background: #fff !important;
+}
+.fade-in-download {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+.animate-fade-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+</style>
 {% endblock %} 
