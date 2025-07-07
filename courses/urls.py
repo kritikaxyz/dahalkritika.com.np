@@ -13,4 +13,6 @@ urlpatterns = [
     path('enroll/<int:course_id>/', views.enroll_course, name='enroll'),
     path('enroll/confirm/<int:course_id>/', views.enroll_course, name='enroll_confirm'),
     path('courses/<int:pk>/enroll/', views.enroll_course, name='enroll_course'),
+    path('facilities/', views.facility_list, name='facility_list'),
+    path('facilities/<slug:slug>/', views.facility_detail, name='facility_detail'),
 ] 

@@ -51,11 +51,11 @@ def contact_view(request):
     return render(request, 'contact_form.html')
 
 def gallery_view(request):
-    gallery_images = GalleryImage.objects.all().order_by('-uploaded_at')
+    gallery_images = GalleryImage.objects.all().order_by('-created_at')
     return render(request, 'gallery.html', {'gallery_images': gallery_images})
 
 def downloads_view(request):
-    downloads = Download.objects.all().order_by('-uploaded_at')
+    downloads = Download.objects.all().order_by('-created_at')
     return render(request, 'downloads.html', {'downloads': downloads})
 
 def teachers_staff_view(request):
@@ -63,7 +63,7 @@ def teachers_staff_view(request):
     return render(request, 'teachers_staff.html', {'teachers_staff': teachers_staff})
 
 def executive_message_view(request):
-    executive_messages = ExecutiveMessage.objects.all().order_by('role')
+    executive_messages = ExecutiveMessage.objects.all().order_by('designation')
     return render(request, 'executive_message.html', {'executive_messages': executive_messages})
 
 def ads_notice_context(request):

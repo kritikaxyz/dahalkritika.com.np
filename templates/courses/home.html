@@ -14,12 +14,12 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0 text-center">
-                <img src="{% static 'images/schoolimg.png' %}" alt="School Photo" class="img-fluid rounded shadow" style="max-width: 100%; height: auto;">
+                <img src="{% static 'images/schoolimg.jpg' %}" alt="School Photo" class="img-fluid rounded shadow" style="max-width: 100%; height: auto;">
             </div>
             <div class="col-lg-6">
-                <h2 class="fw-bold mb-3">Welcome to Vishwa Adarsha Secondary School</h2>
+                <h2 class="fw-bold mb-3">Welcome East West Point English  School</h2>
                 <p style="font-size:1.15rem;line-height:1.7;">
-                    It is a matter of great honor for the Vishwa Adarsha family that Vishwa Adarsha Secondary School, Itahari, has stepped into the 5 years of the glorious march towards imparting quality education to the students, particularly in the Eastern region of Nepal. We proudly acknowledge the participation of the teachers, students, parents, and the general public to make this institution a center for academic excellence in this beautiful town. We feel proud to share our success that we have successfully produced some of the best minds in the country.
+                    It is a matter of great honor for the  East   West family that  East  West Secondary School, Itahari, has stepped into the 5 years of the glorious march towards imparting quality education to the students, particularly in the Eastern region of Nepal. We proudly acknowledge the participation of the teachers, students, parents, and the general public to make this institution a center for academic excellence in this beautiful town. We feel proud to share our success that we have successfully produced some of the best minds in the country.
                 </p>
             </div>
         </div>
@@ -199,19 +199,35 @@
     </div>
 </section>
 
-<!-- Map Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-4">Find Us on the Map</h2>
-        <div class="row justify-content-center">
-            <div class="col-12 col-lg-10">
-                <div style="width: 100%; height: 450px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.123456789!2d87.2701217!3d26.7002289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef6b2aca36603b%3A0x588fd16665507730!2sEast%20West%20Point%20English%20Boarding%20School!5e0!3m2!1sen!2snp!4v1680000000000!5m2!1sen!2snp"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<!-- AdvNotices Section (Ads) -->
+{% if ads_notices %}
+<section class="container my-4">
+    <div class="row justify-content-center">
+        {% for ad in ads_notices %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+                {% if ad.image %}
+                <img src="{{ ad.image.url }}" class="card-img-top" alt="{{ ad.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ ad.title }}</h5>
+                    <p class="card-text">{{ ad.content|truncatewords:30 }}</p>
+                    {% if ad.nepali_date %}
+                    <p class="mb-1"><strong>Nepali Date:</strong> {{ ad.nepali_date }}</p>
+                    {% endif %}
+                    <p class="mb-0 text-muted"><small>Published: {{ ad.created_at|date:"M d, Y" }}</small></p>
                 </div>
             </div>
         </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- Find Us on the Map Section -->
+<section class="py-0" style="background: #fff;">
+    <div class="w-100" style="margin:0; padding:0;">
+        <iframe src="https://www.google.com/maps?q=Itahari-20,+Sunsari,+Nepal&output=embed" width="100%" height="400" style="border:0; min-height:300px; display:block; margin:0; padding:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </section>
 
@@ -243,6 +259,76 @@
     </div>
 </section>
 
+<!-- Services We Provide Section -->
+<section id="facility" class="py-5 bg-light">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col text-center">
+                <h2 class="fw-bold">Services We Provide</h2>
+                <p class="text-muted">We offer a range of facilities to support holistic development.</p>
+            </div>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-bus fa-2x text-primary mb-3"></i>
+                    <h5 class="fw-bold">Transportation</h5>
+                    <a href="{% url 'courses:facility_detail' slug='transportation' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-book-reader fa-2x text-success mb-3"></i>
+                    <h5 class="fw-bold">Library</h5>
+                    <a href="{% url 'courses:facility_detail' slug='library' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-music fa-2x text-danger mb-3"></i>
+                    <h5 class="fw-bold">Dance</h5>
+                    <a href="{% url 'courses:facility_detail' slug='dance' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-desktop fa-2x text-info mb-3"></i>
+                    <h5 class="fw-bold">Computer Lab</h5>
+                    <a href="{% url 'courses:facility_detail' slug='computer-lab' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-user-friends fa-2x text-warning mb-3"></i>
+                    <h5 class="fw-bold">Scout</h5>
+                    <a href="{% url 'courses:facility_detail' slug='scout' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-futbol fa-2x text-primary mb-3"></i>
+                    <h5 class="fw-bold">Sports</h5>
+                    <a href="{% url 'courses:facility_detail' slug='sports' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-child fa-2x text-success mb-3"></i>
+                    <h5 class="fw-bold">Yoga</h5>
+                    <a href="{% url 'courses:facility_detail' slug='yoga' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card h-100 shadow-sm text-center p-3">
+                    <i class="fas fa-snowflake fa-2x text-info mb-3"></i>
+                    <h5 class="fw-bold">AC Room</h5>
+                    <a href="{% url 'courses:facility_detail' slug='ac-room' %}" class="btn btn-info mt-3">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Categories -->
 <section class="mb-5">
     <div class="container">
@@ -263,27 +349,4 @@
     </div>
 </section>
 
-<!-- Why Choose Us -->
-<section class="bg-light py-5">
-    <div class="container">
-        <h2 class="text-center mb-5">Why Choose Us</h2>
-        <div class="row">
-            <div class="col-md-4 text-center mb-4">
-                <div class="h1 mb-3">📚</div>
-                <h4>Expert Instructors</h4>
-                <p>Learn from industry experts who are passionate about teaching.</p>
-            </div>
-            <div class="col-md-4 text-center mb-4">
-                <div class="h1 mb-3">🎯</div>
-                <h4>Flexible Learning</h4>
-                <p>Study at your own pace, anywhere and anytime.</p>
-            </div>
-            <div class="col-md-4 text-center mb-4">
-                <div class="h1 mb-3">📱</div>
-                <h4>Mobile Friendly</h4>
-                <p>Access your courses on any device, anywhere.</p>
-            </div>
-        </div>
-    </div>
-</section>
 {% endblock %} 

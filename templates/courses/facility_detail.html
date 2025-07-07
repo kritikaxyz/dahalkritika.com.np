@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ facility.name }} - Facility{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+            {% if facility.image %}
+                <img src="{{ facility.image.url }}" alt="{{ facility.name }}" class="img-fluid rounded shadow">
+            {% else %}
+                <img src="{% static 'images/event-placeholder.jpg' %}" alt="No Image" class="img-fluid rounded shadow">
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2 class="fw-bold mb-3">{{ facility.name }}</h2>
+            <div style="font-size:1.15rem;line-height:1.7;">
+                {{ facility.description|linebreaks }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

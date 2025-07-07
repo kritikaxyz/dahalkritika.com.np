@@ -1,0 +1,72 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}{% if advnotice %}Edit AdvNotice{% else %}Create AdvNotice{% endif %}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{% if advnotice %}Edit Advertisement/Notice{% else %}Create Advertisement/Notice{% endif %}</h1>
+    <a href="{% url 'customadmin:advnotice_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Back to List
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">{% if advnotice %}Edit Advertisement/Notice{% else %}Create New Advertisement/Notice{% endif %}</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" 
+                               value="{{ advnotice.title|default:'' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nepali_date" class="form-label">Nepali Date</label>
+                        <input type="text" class="form-control" id="nepali_date" name="nepali_date" 
+                               value="{{ advnotice.nepali_date|default:'' }}" placeholder="e.g., 2081-03-15">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="active" name="active" 
+                                   {% if advnotice.active %}checked{% endif %}>
+                            <label class="form-check-label" for="active">
+                                Active (Show in modal)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content *</label>
+                        <textarea class="form-control" id="content" name="content" rows="8" required>{{ advnotice.content|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        {% if advnotice.image %}
+                        <small class="form-text text-muted">
+                            Current image: {{ advnotice.image.name|slice:"17:" }}
+                        </small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>
+                    {% if advnotice %}Update Advertisement/Notice{% else %}Create Advertisement/Notice{% endif %}
+                </button>
+                <a href="{% url 'customadmin:advnotice_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,94 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}Download List{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Download List</h1>
+    <div>
+        <a href="{% url 'customadmin:download_create' %}" class="btn btn-success">
+            <i class="fas fa-plus me-1"></i>Add Download
+        </a>
+        <a href="{% url 'customadmin:dashboard' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">All Downloads ({{ page_obj.paginator.count }})</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>File</th>
+                        <th>Uploaded</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for download in page_obj %}
+                    <tr>
+                        <td>{{ download.id }}</td>
+                        <td><strong>{{ download.title }}</strong></td>
+                        <td>{{ download.description|truncatewords:10 }}</td>
+                        <td>
+                            {% if download.file %}
+                                <a href="{{ download.file.url }}" target="_blank"><i class="fas fa-download"></i></a>
+                            {% else %}-{% endif %}
+                        </td>
+                        <td>{{ download.uploaded_at|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'customadmin:download_detail' download.id %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'customadmin:download_edit' download.id %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'customadmin:download_delete' download.id %}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No downloads found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Download pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                <li class="page-item active">
+                    <span class="page-link">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

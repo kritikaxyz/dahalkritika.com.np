@@ -1,0 +1,105 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}Notice List{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Notice List</h1>
+    <div>
+        <a href="{% url 'customadmin:notice_create' %}" class="btn btn-success">
+            <i class="fas fa-plus me-1"></i>Add Notice
+        </a>
+        <a href="{% url 'customadmin:dashboard' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">All Notices ({{ page_obj.paginator.count }})</h5>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Important</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notice in page_obj %}
+                    <tr>
+                        <td>{{ notice.id }}</td>
+                        <td>
+                            <strong>{{ notice.title }}</strong>
+                            {% if notice.attachment %}
+                                <i class="fas fa-paperclip text-muted ms-1"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if notice.important %}
+                                <span class="badge bg-danger">Important</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Normal</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ notice.created_at|date:"M d, Y" }}</td>
+                        <td>{{ notice.updated_at|date:"M d, Y" }}</td>
+                        <td>
+                            <a href="{% url 'customadmin:notice_detail' notice.id %}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{% url 'customadmin:notice_edit' notice.id %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{% url 'customadmin:notice_delete' notice.id %}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No notices found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <nav aria-label="Notice pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo; First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                <li class="page-item active">
+                    <span class="page-link">
+                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+                
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

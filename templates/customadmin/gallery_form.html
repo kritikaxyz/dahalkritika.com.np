@@ -1,0 +1,85 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}{% if gallery %}Edit Gallery Image{% else %}Create Gallery Image{% endif %}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{% if gallery %}Edit Gallery Image{% else %}Create Gallery Image{% endif %}</h1>
+    <a href="{% url 'customadmin:gallery_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Back to List
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">{% if gallery %}Edit Gallery Image{% else %}Create New Gallery Image{% endif %}</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" 
+                               value="{{ gallery.title|default:'' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="4">{{ gallery.description|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image *</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                        {% if gallery.image %}
+                        <small class="form-text text-muted">
+                            Current image: {{ gallery.image.name|slice:"17:" }}
+                        </small>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category">
+                            <option value="">Select Category</option>
+                            <option value="events" {% if gallery.category == 'events' %}selected{% endif %}>Events</option>
+                            <option value="activities" {% if gallery.category == 'activities' %}selected{% endif %}>Activities</option>
+                            <option value="facilities" {% if gallery.category == 'facilities' %}selected{% endif %}>Facilities</option>
+                            <option value="students" {% if gallery.category == 'students' %}selected{% endif %}>Students</option>
+                            <option value="other" {% if gallery.category == 'other' %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
+                                   {% if gallery.is_active %}checked{% endif %}>
+                            <label class="form-check-label" for="is_active">
+                                Active (Show to users)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="order" class="form-label">Display Order</label>
+                        <input type="number" class="form-control" id="order" name="order" 
+                               value="{{ gallery.order|default:0 }}" min="0">
+                        <small class="form-text text-muted">Lower numbers appear first</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>
+                    {% if gallery %}Update Gallery Image{% else %}Create Gallery Image{% endif %}
+                </button>
+                <a href="{% url 'customadmin:gallery_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

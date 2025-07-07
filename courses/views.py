@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Course, Category, Lesson, Enrollment, Notice, Event, AdvNotice, Staff
+from .models import Course, Category, Lesson, Enrollment, Notice, Event, AdvNotice, Staff, Facility
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.utils import timezone
@@ -12,11 +12,11 @@ def get_ads_notice():
 def home(request):
     courses = Course.objects.filter(is_published=True)
     categories = Category.objects.all()
-    ads_notice = get_ads_notice()
+    ads_notices = AdvNotice.objects.filter(active=True, image__isnull=False).order_by('-created_at')
     context = {
         'courses': courses,
         'categories': categories,
-        'ads_notice': ads_notice,
+        'ads_notices': ads_notices,
     }
     return render(request, 'courses/home.html', context)
 
@@ -108,3 +108,11 @@ def my_courses(request):
 def teachers_staff_view(request):
     teachers_staff = Staff.objects.all()
     return render(request, 'teachers_staff.html', {'teachers_staff': teachers_staff})
+
+def facility_list(request):
+    facilities = Facility.objects.filter(is_active=True).order_by('order', 'name')
+    return render(request, 'courses/facility_list.html', {'facilities': facilities})
+
+def facility_detail(request, slug):
+    facility = get_object_or_404(Facility, slug=slug, is_active=True)
+    return render(request, 'courses/facility_detail.html', {'facility': facility})
