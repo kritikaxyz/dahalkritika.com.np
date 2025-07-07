@@ -1,0 +1,28 @@
+/* EWPES Admin Custom Sidebar Styles */
+.admin-sidebar {
+  background: linear-gradient(180deg, #1a237e 70%, #3949ab 100%);
+  color: #fff;
+  box-shadow: 2px 0 8px rgba(26,35,126,0.10);
+}
+.admin-sidebar a {
+  color: #fff;
+  padding: 15px 30px;
+  border-left: 4px solid transparent;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.admin-sidebar a:hover, .admin-sidebar a.active {
+  background: #5c6bc0;
+  border-left: 4px solid #ffb300;
+  color: #fffde7;
+}
+@media (max-width: 900px) {
+  .admin-sidebar {
+    width: 100vw;
+    height: auto;
+    position: static;
+    box-shadow: none;
+    padding-top: 10px;
+  }
+} 

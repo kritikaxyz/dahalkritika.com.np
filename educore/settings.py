@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     
     # Local apps
     "courses.apps.CoursesConfig",
+    "customadmin",
 ]
 
 MIDDLEWARE = [
@@ -67,7 +68,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "educore.views.ads_notice_context",
+                # "educore.views.ads_notice_context",  # Removed to show ads only on home page
             ],
         },
     },
@@ -144,5 +145,6 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Django Authentication
-LOGIN_REDIRECT_URL = 'courses:home'
-LOGOUT_REDIRECT_URL = 'courses:home'
+LOGIN_URL = '/admin/login/'
+LOGIN_REDIRECT_URL = '/admin/'
+LOGOUT_REDIRECT_URL = '/admin/login/'

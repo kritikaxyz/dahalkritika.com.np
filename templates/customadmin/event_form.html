@@ -1,0 +1,80 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}{% if event %}Edit Event{% else %}Create Event{% endif %}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{% if event %}Edit Event{% else %}Create Event{% endif %}</h1>
+    <a href="{% url 'customadmin:event_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Back to List
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">{% if event %}Edit Event{% else %}Create New Event{% endif %}</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" 
+                               value="{{ event.title|default:'' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location *</label>
+                        <input type="text" class="form-control" id="location" name="location" 
+                               value="{{ event.location|default:'' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date & Time *</label>
+                        <input type="datetime-local" class="form-control" id="start_date" name="start_date" 
+                               value="{{ event.start_date|date:'Y-m-d\TH:i'|default:'' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date & Time *</label>
+                        <input type="datetime-local" class="form-control" id="end_date" name="end_date" 
+                               value="{{ event.end_date|date:'Y-m-d\TH:i'|default:'' }}" required>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description *</label>
+                        <textarea class="form-control" id="description" name="description" rows="6" required>{{ event.description|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="registration_url" class="form-label">Registration URL</label>
+                        <input type="url" class="form-control" id="registration_url" name="registration_url" 
+                               value="{{ event.registration_url|default:'' }}">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Event Image</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        {% if event.image %}
+                        <small class="form-text text-muted">
+                            Current image: {{ event.image.name|slice:"13:" }}
+                        </small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>
+                    {% if event %}Update Event{% else %}Create Event{% endif %}
+                </button>
+                <a href="{% url 'customadmin:event_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 

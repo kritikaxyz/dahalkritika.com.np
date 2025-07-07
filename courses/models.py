@@ -33,6 +33,8 @@ class Event(models.Model):
 
     @property
     def is_upcoming(self):
+        if self.start_date is None:
+            return False
         return self.start_date > timezone.now()
 
 class Category(models.Model):
@@ -89,7 +91,7 @@ class Enrollment(models.Model):
 class AdvNotice(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
-    image = models.ImageField(upload_to='advnotice_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='advnotice_images/', blank=True, null=True)  # noqa: spellchecker:disable
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     nepali_date = models.CharField(max_length=20, blank=True, help_text='Date in Nepali calendar (e.g., 2081-03-15)')
@@ -104,10 +106,20 @@ class AdvNotice(models.Model):
         return self.title
 
 class Download(models.Model):
+    CATEGORY_CHOICES = [
+        ('forms', 'Forms'),
+        ('documents', 'Documents'),
+        ('brochures', 'Brochures'),
+        ('other', 'Other'),
+    ]
     title = models.CharField(max_length=200)
     file = models.FileField(upload_to='downloads/')
     description = models.TextField(blank=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True)
+    is_active = models.BooleanField(default=True)
+    download_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
@@ -127,25 +139,51 @@ class Staff(models.Model):
         return f"{self.get_type_display()} - {self.name}"
 
 class ExecutiveMessage(models.Model):
-    EXECUTIVE_ROLES = [
-        ("principal", "Principal"),
-        ("managing_director", "Managing Director"),
-        ("vice_principal", "Vice Principal"),
-    ]
-    role = models.CharField(max_length=30, choices=EXECUTIVE_ROLES)
     name = models.CharField(max_length=100)
-    photo = models.ImageField(upload_to='executive_photos/', blank=True, null=True)
+    designation = models.CharField(max_length=100, blank=True, null=True)
     message = models.TextField()
+    image = models.ImageField(upload_to='executive_photos/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.get_role_display()} - {self.name}"
+        return f"{self.designation} - {self.name}"
 
 class GalleryImage(models.Model):
-    image = models.ImageField(upload_to='gallery_images/')
-    title = models.CharField(max_length=200, blank=True)
+    CATEGORY_CHOICES = [
+        ('events', 'Events'),
+        ('activities', 'Activities'),
+        ('facilities', 'Facilities'),
+        ('students', 'Students'),
+        ('other', 'Other'),
+    ]
+    title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='gallery_images/')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, blank=True)
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
 
     def __str__(self):
-        return self.title or f"Gallery Image {self.pk}"
+        return self.title
+
+class Facility(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+    image = models.ImageField(upload_to='facility_images/', blank=True, null=True)
+    order = models.PositiveIntegerField(default=0)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order', 'name']
+        verbose_name_plural = 'Facilities'
+
+    def __str__(self):
+        return self.name

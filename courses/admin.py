@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Course, Lesson, Enrollment, Notice, Event, AdvNotice, Download, Staff, ExecutiveMessage, GalleryImage
+from .models import Category, Course, Lesson, Enrollment, Notice, Event, AdvNotice, Download, Staff, ExecutiveMessage, GalleryImage, Facility
 
 class NoticeAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at', 'important')
@@ -29,5 +29,6 @@ admin.site.register(Download)
 admin.site.register(Staff, StaffAdmin)
 admin.site.register(ExecutiveMessage)
 admin.site.register(GalleryImage)
+admin.site.register(Facility)
 
 # Register your models here.

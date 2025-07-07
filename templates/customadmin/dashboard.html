@@ -1,0 +1,148 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1 class="mb-4">Admin Dashboard</h1>
+
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text display-6">{{ user_count }}</p>
+                <a href="{% url 'customadmin:user_list' %}" class="btn btn-light btn-sm">Manage Users</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Notices</h5>
+                <p class="card-text display-6">{{ notice_count }}</p>
+                <a href="{% url 'customadmin:notice_list' %}" class="btn btn-light btn-sm">Manage Notices</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Events</h5>
+                <p class="card-text display-6">{{ event_count }}</p>
+                <a href="{% url 'customadmin:event_list' %}" class="btn btn-light btn-sm">Manage Events</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Courses</h5>
+                <p class="card-text display-6">{{ course_count }}</p>
+                <a href="{% url 'customadmin:course_list' %}" class="btn btn-light btn-sm">Manage Courses</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-secondary">
+            <div class="card-body">
+                <h5 class="card-title">Staff</h5>
+                <p class="card-text display-6">{{ staff_count }}</p>
+                <a href="{% url 'customadmin:staff_list' %}" class="btn btn-light btn-sm">Manage Staff</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Adv Notices</h5>
+                <p class="card-text display-6">{{ adv_notice_count }}</p>
+                <a href="{% url 'customadmin:advnotice_list' %}" class="btn btn-light btn-sm">Manage Adv Notices</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-danger">
+            <div class="card-body">
+                <h5 class="card-title">Downloads</h5>
+                <p class="card-text display-6">{{ download_count }}</p>
+                <a href="{% url 'customadmin:download_list' %}" class="btn btn-light btn-sm">Manage Downloads</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Executives</h5>
+                <p class="card-text display-6">{{ executive_count }}</p>
+                <a href="{% url 'customadmin:executive_list' %}" class="btn btn-light btn-sm">Manage Executives</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Gallery</h5>
+                <p class="card-text display-6">{{ gallery_count }}</p>
+                <a href="{% url 'customadmin:gallery_list' %}" class="btn btn-light btn-sm">Manage Gallery</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:notice_create' %}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-plus"></i> Add Notice
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:event_create' %}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-plus"></i> Add Event
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:staff_create' %}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-plus"></i> Add Staff
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:advnotice_create' %}" class="btn btn-outline-warning w-100">
+                            <i class="fas fa-plus"></i> Add Adv Notice
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:download_create' %}" class="btn btn-outline-danger w-100">
+                            <i class="fas fa-plus"></i> Add Download
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:executive_create' %}" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-plus"></i> Add Executive
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'customadmin:gallery_create' %}" class="btn btn-outline-dark w-100">
+                            <i class="fas fa-plus"></i> Add Gallery Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1175,4 +1175,63 @@ body {
     color: #0d5bb5 !important;
 }
 
+/* Footer Container */
+footer {
+  position: relative;
+  background: #0ba4c5; /* Blue background */
+  padding: 40px 20px 60px;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  margin-top: 100px;
+}
+
+/* Wave shape */
+footer::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: white;
+  border-bottom-left-radius: 100% 40px;
+  border-bottom-right-radius: 100% 40px;
+  transform: scaleX(1.5);
+  z-index: 1;
+}
+
+/* Footer text */
+footer p {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Scroll-to-top button */
+.scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.scroll-top:hover {
+  background: #b71c1c;
+}
+
 

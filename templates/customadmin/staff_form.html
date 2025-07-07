@@ -1,0 +1,70 @@
+{% extends 'customadmin/base.html' %}
+{% block title %}{% if staff %}Edit Staff{% else %}Create Staff{% endif %}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{% if staff %}Edit Staff{% else %}Create Staff{% endif %}</h1>
+    <a href="{% url 'customadmin:staff_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Back to List
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">{% if staff %}Edit Staff{% else %}Create New Staff{% endif %}</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name *</label>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               value="{{ staff.name|default:'' }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type *</label>
+                        <select class="form-select" id="type" name="type" required>
+                            <option value="teaching" {% if staff.type == 'teaching' %}selected{% endif %}>Teaching Staff</option>
+                            <option value="non_teaching" {% if staff.type == 'non_teaching' %}selected{% endif %}>Non-Teaching Staff</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="designation" class="form-label">Designation</label>
+                        <input type="text" class="form-control" id="designation" name="designation" 
+                               value="{{ staff.designation|default:'' }}">
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="bio" class="form-label">Bio</label>
+                        <textarea class="form-control" id="bio" name="bio" rows="6">{{ staff.bio|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="photo" class="form-label">Photo</label>
+                        <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                        {% if staff.photo %}
+                        <small class="form-text text-muted">
+                            Current photo: {{ staff.photo.name|slice:"12:" }}
+                        </small>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-1"></i>
+                    {% if staff %}Update Staff{% else %}Create Staff{% endif %}
+                </button>
+                <a href="{% url 'customadmin:staff_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %} 
